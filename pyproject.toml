@@ -1,0 +1,42 @@
+[project]
+name = "exporter_helper_data"
+dynamic = ["version"]
+description = "exports the data of all the purchased tickets from a certain type and saves it"
+readme = "README.rst"
+license = {text = "Apache"}
+keywords = ["pretix"]
+authors = [
+    {name = "Nora Küchler", email = "n.kuechler@posteo.de"},
+]
+maintainers = [
+    {name = "Nora Küchler", email = "n.kuechler@posteo.de"},
+]
+
+dependencies = [
+]
+
+[project.entry-points."pretix.plugin"]
+pretix_exporter = "pretix_exporter:PretixPluginMeta"
+
+[project.entry-points."distutils.commands"]
+build = "pretix_plugin_build.build:CustomBuild"
+
+[build-system]
+requires = [
+    "setuptools",
+    "pretix-plugin-build",
+]
+
+[project.urls]
+homepage = "GitHub repository URL"
+repository = "GitHub repository URL"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "pretix_exporter.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["pretix*"]
+namespaces = false

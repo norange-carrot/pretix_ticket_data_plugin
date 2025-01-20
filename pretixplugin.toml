@@ -1,0 +1,5 @@
+[plugin]
+package = "exporter_helper_data"
+modules = [ "pretix_exporter" ]
+marketplace_name = "exporter_helper_data"
+
