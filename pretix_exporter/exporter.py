@@ -1,5 +1,5 @@
-from django_scopes import scope
 import logging
+from django_scopes import scope
 from pretix.base.exporter import ListExporter
 from pretix.base.models.orders import Order
 
