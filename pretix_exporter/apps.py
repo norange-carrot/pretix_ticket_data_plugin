@@ -16,7 +16,9 @@ class PluginApp(PluginConfig):
     class PretixPluginMeta:
         name = gettext_lazy("Helperexporter")
         author = "Nora Küchler"
-        description = gettext_lazy("exports the data of all the purchased tickets from a certain type and saves it")
+        description = gettext_lazy(
+            "exports the data of all the purchased tickets from a certain type and saves it"
+        )
         visible = True
         version = __version__
         category = "API"
