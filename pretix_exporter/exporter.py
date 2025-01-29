@@ -19,7 +19,7 @@ class HelperListExporter(ListExporter):
         ]
         yield headers
 
-        item_id = 3
+        item_category_id = 2
 
         with scope(event=self.event):
             orders = (
@@ -31,7 +31,8 @@ class HelperListExporter(ListExporter):
             for order in orders:
                 logger.info(f"Processing order {order.code}")
                 for order_position in order.positions.all():
-                    if order_position.item.id != item_id:
+                    logger.info(f"Processing order {order_position.item.category.id}")
+                    if order_position.item.category.id != item_category_id:
                         continue
                     logger.info(f"Processing order {order_position.attendee_email}")
                     d = {
