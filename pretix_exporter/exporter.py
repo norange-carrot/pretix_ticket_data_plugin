@@ -17,14 +17,14 @@ class HelperListExporter(ListExporter):
     verbose_name = "Helper Orders as Excel"
 
     def iterate_list(self, form_data):
+        logger.info("[HelperListExporter] Start exporting helper list")
         headers = self._get_headers()
         yield headers
 
         with scope(event=self.event):
             orders = self._get_orders()
-            logger.info(f"Found {len(orders)} orders")
+            logger.info(f"[HelperListExporter] Found {len(orders)} orders.")
             for order in orders:
-                logger.info(f"Processing order {order.code}")
                 for order_position in order.positions.all():
                     output_data = self._process_order(order, order_position)
                     if output_data:
@@ -46,9 +46,8 @@ class HelperListExporter(ListExporter):
         )
 
     def _process_order(self, order: Order, order_position: OrderPosition) -> list[str]:
-        logger.info(f"Processing order position {order_position.id}")
         if order_position.item.category.id == CATEGORY_ID:
-            return [
+            return [  # fields must be in the same order as headers
                 order_position.attendee_name_parts.get("given_name", ""),
                 order_position.attendee_name_parts.get("family_name", ""),
                 order.email,
