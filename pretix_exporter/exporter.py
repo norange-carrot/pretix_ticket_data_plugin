@@ -6,6 +6,10 @@ from pretix.base.models.orders import Order, OrderPosition
 logger = logging.getLogger(__name__)
 
 CATEGORY_ID = 2
+# todos:
+# add category id to settings
+# add docs
+# add tests
 
 
 class HelperListExporter(ListExporter):
@@ -25,7 +29,7 @@ class HelperListExporter(ListExporter):
                     output_data = self._process_order(order, order_position)
                     if output_data:
                         yield output_data
-                    
+
     def _get_headers(self) -> list[str]:
         return [
             "Vorname",
@@ -41,7 +45,7 @@ class HelperListExporter(ListExporter):
             .all()
         )
 
-    def _process_order(self, order: Order, order_position: OrderPosition)-> list[str]:
+    def _process_order(self, order: Order, order_position: OrderPosition) -> list[str]:
         logger.info(f"Processing order position {order_position.id}")
         if order_position.item.category.id == CATEGORY_ID:
             return [
