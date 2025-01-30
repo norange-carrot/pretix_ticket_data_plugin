@@ -3,7 +3,7 @@ Helperexporter
 
 This is a plugin for `pretix`_. 
 
-exports the data of all the purchased tickets from a certain type and saves it
+The plugin is used for the Auerworld festival and exports data of all purchased tickets belongig to the Helper category.
 
 Development setup
 -----------------

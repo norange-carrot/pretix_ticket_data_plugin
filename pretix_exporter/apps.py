@@ -11,17 +11,17 @@ except ImportError:
 class PluginApp(PluginConfig):
     default = True
     name = "pretix_exporter"
-    verbose_name = "Helperexporter"
+    verbose_name = "Helper Data Exporter"
 
     class PretixPluginMeta:
-        name = gettext_lazy("Helperexporter")
+        name = gettext_lazy("HelperExporter")
         author = "Nora Küchler"
         description = gettext_lazy(
-            "exports the data of all the purchased tickets from a certain type and saves it"
+            "This plugin exports the data of all the purchased tickets belonging to the Helper category in Excel/CSV."
         )
         visible = True
         version = __version__
-        category = "API"
+        category = "FEATURE"
         compatibility = "pretix>=2.7.0"
 
     def ready(self):

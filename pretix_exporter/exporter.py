@@ -7,14 +7,15 @@ logger = logging.getLogger(__name__)
 
 CATEGORY_ID = 2
 # todos:
-# add category id to settings
 # add docs
 # add tests
 
 
 class HelperListExporter(ListExporter):
     identifier = "helperlistexporter"
-    verbose_name = "Helper Orders as Excel"
+    verbose_name = "Helper data list"
+    description = "Download a spreadsheet with personal data of ordered tickets belonging to the Helper category."
+
 
     def iterate_list(self, form_data):
         logger.info("[HelperListExporter] Start exporting helper list")
