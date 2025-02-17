@@ -1,10 +1,10 @@
 import logging
-from django_scopes import scope
-from pretix.base.exporter import ListExporter
-from pretix.base.models.orders import Order, OrderPosition
-from pretix.base.models import Item  
 from collections import OrderedDict
 from django import forms
+from django_scopes import scope
+from pretix.base.exporter import ListExporter
+from pretix.base.models import Item
+from pretix.base.models.orders import Order, OrderPosition
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +20,16 @@ class HelperListExporter(ListExporter):
     def additional_form_fields(self) -> dict:
         return OrderedDict(
             [
-                ('product_type',
-                 forms.ChoiceField(
-                     label=('Product type'),
-                     choices=[(product.id, product.name) for product in Item.objects.filter(event=self.event)],
-                 )),
+                (
+                    "product_type",
+                    forms.ChoiceField(
+                        label=("Product type"),
+                        choices=[
+                            (product.id, product.name)
+                            for product in Item.objects.filter(event=self.event)
+                        ],
+                    ),
+                ),
             ]
         )
 
