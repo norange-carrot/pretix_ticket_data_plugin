@@ -5,7 +5,7 @@ from pretix.base.models.orders import Order, OrderPosition
 
 logger = logging.getLogger(__name__)
 
-CATEGORY_ID = 2
+ITEM_ID = 4
 
 
 class HelperListExporter(ListExporter):
@@ -43,7 +43,7 @@ class HelperListExporter(ListExporter):
         )
 
     def _process_order(self, order: Order, order_position: OrderPosition) -> list[str]:
-        if order_position.item.category.id == CATEGORY_ID:
+        if order_position.item.id == ITEM_ID:
             return [  # fields must be in the same order as headers
                 order_position.attendee_name_parts.get("given_name", ""),
                 order_position.attendee_name_parts.get("family_name", ""),
