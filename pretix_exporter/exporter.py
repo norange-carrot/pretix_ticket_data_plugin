@@ -2,6 +2,9 @@ import logging
 from django_scopes import scope
 from pretix.base.exporter import ListExporter
 from pretix.base.models.orders import Order, OrderPosition
+from pretix.base.models import Item  
+from collections import OrderedDict
+from django import forms
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +15,18 @@ class HelperListExporter(ListExporter):
     identifier = "helperlistexporter"
     verbose_name = "Helper data list"
     description = "Download a spreadsheet with personal data of ordered tickets belonging to the Helper category."
+
+    @property
+    def additional_form_fields(self) -> dict:
+        return OrderedDict(
+            [
+                ('product_type',
+                 forms.ChoiceField(
+                     label=('Product type'),
+                     choices=[(product.id, product.name) for product in Item.objects.filter(event=self.event)],
+                 )),
+            ]
+        )
 
     def iterate_list(self, form_data):
         logger.info("[HelperListExporter] Start exporting helper list")
