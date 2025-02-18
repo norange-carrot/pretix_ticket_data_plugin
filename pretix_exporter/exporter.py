@@ -8,10 +8,11 @@ from pretix.base.models.orders import Order, OrderPosition
 
 logger = logging.getLogger(__name__)
 
-class HelperListExporter(ListExporter):
-    identifier = "helperlistexporter"
-    verbose_name = "Helper data list"
-    description = "Download a spreadsheet with personal data of ordered tickets belonging to the Helper category."
+
+class TicketPIIExporter(ListExporter):
+    identifier = "ticketpiilistexporter"
+    verbose_name = "Personal data list"
+    description = "Download a spreadsheet with personal data of ordered tickets belonging to a chosen product type."
 
     @property
     def additional_form_fields(self) -> dict:
@@ -31,13 +32,15 @@ class HelperListExporter(ListExporter):
         )
 
     def iterate_list(self, form_data):
-        logger.info("[HelperListExporter] Start exporting helper list")
+        logger.info(
+            f"[TicketDataExporter] Start exporting list of Data for ticket type {Item.objects.get(id=form_data.get('product_type')).name}"
+        )
         headers = self._get_headers()
         yield headers
 
         with scope(event=self.event):
             orders = self._get_orders()
-            logger.info(f"[HelperListExporter] Found {len(orders)} orders.")
+            logger.info(f"[TicketDataExporter] Found {len(orders)} total orders.")
             for order in orders:
                 for order_position in order.positions.all():
                     output_data = self._process_order(order, order_position, form_data)
@@ -59,10 +62,10 @@ class HelperListExporter(ListExporter):
             .all()
         )
 
-    def _process_order(self, order: Order, order_position: OrderPosition, form_data) -> list[str]:
+    def _process_order(
+        self, order: Order, order_position: OrderPosition, form_data
+    ) -> list[str]:
         item_id = int(form_data.get("product_type"))
-        logger.info(item_id)
-        logger.info(order_position.item.id)
         if order_position.item.id == item_id:
             return [  # fields must be in the same order as headers
                 order_position.attendee_name_parts.get("given_name", ""),

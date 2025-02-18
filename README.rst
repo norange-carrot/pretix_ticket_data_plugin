@@ -1,9 +1,9 @@
-Helperexporter
+Ticket Personal Data Exporter
 ==========================
 
 This is a plugin for `pretix`_. 
 
-The plugin is used for the Auerworld festival and exports data of all purchased tickets belongig to the Helper category.
+The plugin is used for the Auerworld festival and exports personal data of all purchased tickets belongig to the chosen item/product type.
 
 Development setup
 -----------------
