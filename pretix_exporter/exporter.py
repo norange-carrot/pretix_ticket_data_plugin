@@ -8,9 +8,6 @@ from pretix.base.models.orders import Order, OrderPosition
 
 logger = logging.getLogger(__name__)
 
-ITEM_ID = 4
-
-
 class HelperListExporter(ListExporter):
     identifier = "helperlistexporter"
     verbose_name = "Helper data list"
@@ -23,7 +20,7 @@ class HelperListExporter(ListExporter):
                 (
                     "product_type",
                     forms.ChoiceField(
-                        label=("Product type"),
+                        label=("Ticketart"),
                         choices=[
                             (product.id, product.name)
                             for product in Item.objects.filter(event=self.event)
@@ -43,7 +40,7 @@ class HelperListExporter(ListExporter):
             logger.info(f"[HelperListExporter] Found {len(orders)} orders.")
             for order in orders:
                 for order_position in order.positions.all():
-                    output_data = self._process_order(order, order_position)
+                    output_data = self._process_order(order, order_position, form_data)
                     if output_data:
                         yield output_data
 
@@ -62,8 +59,11 @@ class HelperListExporter(ListExporter):
             .all()
         )
 
-    def _process_order(self, order: Order, order_position: OrderPosition) -> list[str]:
-        if order_position.item.id == ITEM_ID:
+    def _process_order(self, order: Order, order_position: OrderPosition, form_data) -> list[str]:
+        item_id = int(form_data.get("product_type"))
+        logger.info(item_id)
+        logger.info(order_position.item.id)
+        if order_position.item.id == item_id:
             return [  # fields must be in the same order as headers
                 order_position.attendee_name_parts.get("given_name", ""),
                 order_position.attendee_name_parts.get("family_name", ""),
