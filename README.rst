@@ -1,5 +1,5 @@
 Ticket Personal Data Exporter
-==========================
+=============================
 
 This is a plugin for `pretix`_. 
 
