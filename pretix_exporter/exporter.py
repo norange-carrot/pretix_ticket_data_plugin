@@ -8,7 +8,7 @@ from pretix.base.models.orders import Order, OrderPosition
 
 logger = logging.getLogger(__name__)
 
-PHONE_NUMBER_QUESTION_IDENTIFIER = "ZHMWYE9L"
+PHONE_NUMBER_QUESTION_IDENTIFIER = "Handynummer"
 
 class TicketPIIExporter(ListExporter):
     identifier = "ticketpiilistexporter"
