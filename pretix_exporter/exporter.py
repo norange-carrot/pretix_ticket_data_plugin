@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 PHONE_NUMBER_QUESTION_IDENTIFIER = "Handynummer"
 
+
 class TicketPIIExporter(ListExporter):
     identifier = "ticketpiilistexporter"
     verbose_name = "Personal data list"
@@ -70,7 +71,7 @@ class TicketPIIExporter(ListExporter):
         if order_position.item.id == item_id:
             phone_number = None
             for answer in order_position.answers.all():
-                if answer.question.identifier == PHONE_NUMBER_QUESTION_IDENTIFIER: 
+                if answer.question.identifier == PHONE_NUMBER_QUESTION_IDENTIFIER:
                     phone_number = answer.answer
                     break
             return [  # fields must be in the same order as headers
