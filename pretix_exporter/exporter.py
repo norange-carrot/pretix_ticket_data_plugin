@@ -8,6 +8,8 @@ from pretix.base.models.orders import Order, OrderPosition
 
 logger = logging.getLogger(__name__)
 
+PHONE_NUMBER_QUESTION_IDENTIFIER = "Handynummer"
+
 
 class TicketPIIExporter(ListExporter):
     identifier = "ticketpiilistexporter"
@@ -52,7 +54,7 @@ class TicketPIIExporter(ListExporter):
             "Vorname",
             "Nachname",
             "E-Mail",
-            "Telefon",
+            "Handynummer",
         ]
 
     def _get_orders(self) -> list[Order]:
@@ -67,9 +69,14 @@ class TicketPIIExporter(ListExporter):
     ) -> list[str]:
         item_id = int(form_data.get("product_type"))
         if order_position.item.id == item_id:
+            phone_number = None
+            for answer in order_position.answers.all():
+                if answer.question.identifier == PHONE_NUMBER_QUESTION_IDENTIFIER:
+                    phone_number = answer.answer
+                    break
             return [  # fields must be in the same order as headers
                 order_position.attendee_name_parts.get("given_name", ""),
                 order_position.attendee_name_parts.get("family_name", ""),
                 order.email,
-                order.phone,
+                phone_number,  # Ensure phone number is treated as a string
             ]
